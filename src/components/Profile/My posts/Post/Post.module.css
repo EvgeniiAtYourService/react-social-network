@@ -1,0 +1,11 @@
+.item {
+  border: 1px solid purple;
+  color: purple;
+  margin: 1em auto;
+}
+
+.item img {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
