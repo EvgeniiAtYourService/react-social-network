@@ -4,7 +4,7 @@ import cls from './News.module.css'
 function News() {
     return (
         <div>
-            News
+            News 
         </div>
     )
 }

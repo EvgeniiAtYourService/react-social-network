@@ -2,18 +2,30 @@ import React from 'react'
 import classes from './MyPosts.module.css'
 import Post from './Post/Post'
 
-function MyPosts() {
-    debugger
+function MyPosts(props) {
+  const newPost = React.createRef()
+  const addPost = () => {
+    const text = newPost.current.value
+    props.addPostFun(text)
+    newPost.current.value = ""
+  }
+
   return (
-    <div>
-      My posts
+    <div className={classes.postField}>
+      <h3>My posts</h3>
       <div>
-        <textarea></textarea>
-        <button>Add post</button>
+        <div>
+          <textarea ref={newPost}></textarea>
+        </div>
+        <div>
+          <button onClick={addPost}>Add post</button>
+        </div>
       </div>
       <div className="posts">
-        <Post num="1" message="Hi, hwru?" />
-        <Post num="2" message="What's the weather today?" />
+        {props.postsArray.map((post) => (
+          <Post num={post.num} message={post.message} />
+        ))}
+        {/* Массив */}
       </div>
     </div>
   )
