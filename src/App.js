@@ -1,13 +1,13 @@
 import React from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import './App.css'
-import Dialogs from './components/Dialogs/Dialogs'
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import Profile from './components/Profile/Profile'
 import News from './components/News/News'
 import Music from './components/Music/Music'
 import Settings from './components/Settings/Settings'
+import DialogsContainer from './components/Dialogs/DialogsContainer'
 
 const App = (props) => {
   return (
@@ -18,12 +18,11 @@ const App = (props) => {
       <div className="app-wrapper-content">
         <Route path="/profile">
           <Profile
-            profileState={props.appState.profilePage}
-            addPostFun={props.addPostFun}
+            store={props.store}
           />
         </Route>
         <Route path="/dialogs">
-          <Dialogs dialogsState={props.appState.messagesPage} />
+          <DialogsContainer store={props.store} />
         </Route>
         <Route path="/news">
           <News />
@@ -42,3 +41,4 @@ const App = (props) => {
 export default App
 
 // конструкторы функций, объекты, КОМПОНЕНТЫ с большой буквы
+

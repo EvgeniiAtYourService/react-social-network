@@ -1,5 +1,5 @@
 import React from 'react'
-import MyPosts from './My posts/MyPosts'
+import MyPostsContainer from './My posts/MyPostsContainer'
 import classes from './Profile.module.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
@@ -7,7 +7,9 @@ function Profile(props) {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts postsArray={props.profileState.posts} addPostFun={props.addPostFun} />
+      <MyPostsContainer
+        store={props.store}
+      />
     </div>
   )
 }
