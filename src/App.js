@@ -17,12 +17,10 @@ const App = (props) => {
       <Navbar />
       <div className="app-wrapper-content">
         <Route path="/profile">
-          <Profile
-            store={props.store}
-          />
+          <Profile />
         </Route>
         <Route path="/dialogs">
-          <DialogsContainer store={props.store} />
+          <DialogsContainer />
         </Route>
         <Route path="/news">
           <News />
@@ -41,4 +39,3 @@ const App = (props) => {
 export default App
 
 // конструкторы функций, объекты, КОМПОНЕНТЫ с большой буквы
-
