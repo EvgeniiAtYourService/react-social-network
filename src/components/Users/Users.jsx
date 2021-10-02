@@ -3,31 +3,53 @@ import styles from './Users.module.css'
 import Axios from 'axios'
 import userDef from '../../assets/images/userDef.png'
 
-
-
 export default class UsersC extends Component {
- 
-    componentDidMount() {
-    alert('new')
-     Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then((response) => {
-        this.props.setUsers(response.data.items)
-    })     
- }
+  componentDidMount() {
+    Axios.get(
+      `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+    ).then((response) => {
+      this.props.setUsers(response.data.items)
+      this.props.setUsersCount(response.data.totalCount)
+    })
+  }
+
+  onPageChanged = (pageNumber) => {
+    this.props.setCurrentPage(pageNumber)
+    Axios.get(
+      `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+    ).then((response) => {
+      this.props.setUsers(response.data.items)
+    }) 
+  }
 
   render() {
-    
-    const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+    const pagesCount = Math.ceil(
+      this.props.totalUsersCount / this.props.pageSize
+    )
     const pages = []
     for (let i = 1; i <= pagesCount; i++) {
-      pages.push(i);
+      pages.push(i)
     }
-    console.log(pagesCount);
-    console.log(pages);
+    console.log(pagesCount)
+    console.log(pages)
+
     return (
-      <div> 
-      {pages.map((pageNumber) => {
-        return (<span className={ this.props.currentPage === pageNumber && styles.selectedPage } >{pageNumber}</span>)
-      })}
+      <div>
+        {pages.map((pageNumber) => {
+          return (
+            <span
+              onClick={() => {
+                this.onPageChanged(pageNumber)
+              }}
+              className={
+                this.props.currentPage === pageNumber && styles.selectedPage
+              }
+              style={{ cursor: 'pointer', marginRight: '5px' }}
+            >
+              {pageNumber}
+            </span>
+          )
+        })}
 
         {this.props.users.map((u) => (
           <div key={u.id}>
@@ -73,8 +95,4 @@ export default class UsersC extends Component {
       </div>
     )
   }
-
-
-
-
 }
