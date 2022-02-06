@@ -9,6 +9,9 @@ import Music from './components/Music/Music'
 import Settings from './components/Settings/Settings'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
 import UsersContainer from './components/Users/UsersContainer'
+import ProfileAPIWrapper from './components/Profile/ProfileContainer'
+import HeaderContainer from './components/Header/HeaderContainer'
+
 
 
 
@@ -16,11 +19,11 @@ const App = (props) => {
   return (
     // Компонента возвращает JSX разметку / тег / <
     <div className="app-wrapper">
-      <Header />
+      <HeaderContainer />
       <Navbar />
       <div className="app-wrapper-content">
-        <Route path="/profile">
-          <Profile />
+        <Route path="/profile/:userId?">
+          <ProfileAPIWrapper />
         </Route>
         <Route path="/dialogs">
           <DialogsContainer />

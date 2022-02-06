@@ -1,15 +1,20 @@
 import React from 'react'
+import Preloader from '../../common/Preloader/Preloader'
 import css from './ProfileInfo.module.css'
 
-function ProfileInfo() {
+function ProfileInfo(props) {
+  if (!props.profile) {
+    return <Preloader />
+  } else { 
   return (
     <div>
       <div>
-        <img src="https://share.america.gov/wp-content/uploads/2018/06/international-waters-freedom-of-navigation-DY8ERP.jpg"></img>
+        <img src={props.profile.photos.large}></img>
       </div>
       <div className={css.descriptionBlock}>ava + des</div>
     </div>
   )
+  }
 }
 
 export default ProfileInfo

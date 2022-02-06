@@ -1,98 +1,61 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styles from './Users.module.css'
-import Axios from 'axios'
 import userDef from '../../assets/images/userDef.png'
+import { NavLink } from 'react-router-dom'
+import FollowButtonContainer from './FollowButton/FollowButtonContainer'
 
-export default class UsersC extends Component {
-  componentDidMount() {
-    Axios.get(
-      `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
-    ).then((response) => {
-      this.props.setUsers(response.data.items)
-      this.props.setUsersCount(response.data.totalCount)
-    })
+function Users(props) {
+  const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+  const pages = []
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i)
   }
+  // console.log(pagesCount)
+  // console.log(pages)
+  return (
+    <div>
+      {pages.map((pageNumber) => {
+        return (
+          <span
+            onClick={() => {
+              props.onPageChanged(pageNumber)
+            }}
+            className={props.currentPage === pageNumber && styles.selectedPage}
+            style={{ cursor: 'pointer', marginRight: '5px' }}
+          >
+            {pageNumber}
+          </span>
+        )
+      })}
 
-  onPageChanged = (pageNumber) => {
-    this.props.setCurrentPage(pageNumber)
-    Axios.get(
-      `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
-    ).then((response) => {
-      this.props.setUsers(response.data.items)
-    }) 
-  }
-
-  render() {
-    const pagesCount = Math.ceil(
-      this.props.totalUsersCount / this.props.pageSize
-    )
-    const pages = []
-    for (let i = 1; i <= pagesCount; i++) {
-      pages.push(i)
-    }
-    console.log(pagesCount)
-    console.log(pages)
-
-    return (
-      <div>
-        {pages.map((pageNumber) => {
-          return (
-            <span
-              onClick={() => {
-                this.onPageChanged(pageNumber)
-              }}
-              className={
-                this.props.currentPage === pageNumber && styles.selectedPage
-              }
-              style={{ cursor: 'pointer', marginRight: '5px' }}
-            >
-              {pageNumber}
-            </span>
-          )
-        })}
-
-        {this.props.users.map((u) => (
-          <div key={u.id}>
-            <span>
-              <div>
+      {props.users.map((u) => (
+        <div key={u.id}>
+        
+          <span>
+            <div>
+              <NavLink to={'/profile/' + u.id}>
                 <img
                   src={u.photos.small != null ? u.photos.small : userDef}
                   className={styles.userPhoto}
                 />
-              </div>
-              <div>
-                {u.followed ? (
-                  <button
-                    onClick={() => {
-                      this.props.unfollow(u.id)
-                    }}
-                  >
-                    Unfollow
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      this.props.follow(u.id)
-                    }}
-                  >
-                    Follow
-                  </button>
-                )}
-              </div>
+              </NavLink>
+            </div>
+            <FollowButtonContainer uFollowed={u.followed} uId={u.id} />
+          </span>
+          <span>
+            <span>
+              <div>{u.name}</div>
+              <div>{u.status}</div>
             </span>
             <span>
-              <span>
-                <div>{u.name}</div>
-                <div>{u.status}</div>
-              </span>
-              <span>
-                <div>{'u.location.country'}</div>
-                <div>{'u.location.city'}</div>
-              </span>
+              <div>{'u.location.country'}</div>
+              <div>{'u.location.city'}</div>
             </span>
-          </div>
-        ))}
-      </div>
-    )
-  }
+          </span>
+        </div>
+      ))}
+    </div>
+  )
 }
+
+export default Users
